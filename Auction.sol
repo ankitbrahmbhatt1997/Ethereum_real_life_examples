@@ -1,6 +1,19 @@
 pragma solidity ^0.4.25;
 
 
+contract AuctionCreator {
+    address[] public auctions;
+    
+    function createAuction() public {
+        address newAuction = new Auction(msg.sender);
+        auctions.push(newAuction);
+    }
+}
+
+
+
+
+
 contract Auction {
     
     // state variables that are constant
@@ -21,7 +34,7 @@ contract Auction {
     
     // (address _owner, uint _bidIncrement, uint _startBlock, uint _endBlock, string _ipfsHash
     
-    constructor() public {
+    constructor(address auctionCreator) public {
         // require(_owner != 0 && _startBlock < _endBlock && _startBlock >= block.number);
          auctionState = State.Running;
         // owner = _owner;
@@ -32,7 +45,7 @@ contract Auction {
         
         
         // Just for testing
-        owner = msg.sender;
+        owner = auctionCreator;
         startBlock = block.number;
         endBlock = startBlock + 3;
         ipfsHash = "";
@@ -144,6 +157,14 @@ contract Auction {
            }
        }
     }
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
